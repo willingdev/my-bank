@@ -1,0 +1,29 @@
+{
+  "name": "with-typescript",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc",
+    "format": "prettier  --write \"**/*.+(js|jsx|json|tsx|css|ts|md|graphql)\""
+  },
+  "dependencies": {
+    "autoprefixer": "^9.8.6",
+    "next": "latest",
+    "postcss": "^7.0.35",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^3.0.0",
+    "@types/node": "^12.12.21",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.2.0",
+    "typescript": "4.0"
+  },
+  "license": "MIT"
+}
