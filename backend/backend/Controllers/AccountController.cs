@@ -21,10 +21,14 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<AccountModel>> CreateAccountAsync([FromBody] CreateAccountCommmand createAccountCommmand)
         {
-
             return await _mediator.Send(createAccountCommmand);
         }
-
+        [Route("get")]
+        [HttpPost]
+        public async Task<ActionResult<AccountModel>> GetAccountAsync([FromBody] GetAccountCommand getAccountCommmand)
+        {
+            return await _mediator.Send(getAccountCommmand);
+        }
 
     }
 }

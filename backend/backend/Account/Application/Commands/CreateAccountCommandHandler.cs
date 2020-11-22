@@ -19,6 +19,7 @@ namespace MyBank.Account.Application.Commands
         public async Task<AccountModel> Handle(CreateAccountCommmand request, CancellationToken cancellationToken)
         {
             AccountModel account = new AccountModel();
+            account.CustomerId = request.CustomerId;
             return await _accountRepository.Add(account);
         }
     }

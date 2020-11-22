@@ -29,9 +29,11 @@ namespace backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSingleton<IAccountRepository, AccountRepository>();
             services.AddMediatR(typeof(CreateAccountCommandHandler).GetTypeInfo().Assembly);
+            services.AddMediatR(typeof(GetAccountCommandHandler).GetTypeInfo().Assembly);
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

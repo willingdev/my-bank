@@ -6,11 +6,11 @@ namespace MyBank.Account.Application.Commands
 {
 
 
-    public class CreateAccountCommmand : IRequest<AccountModel>
+    public class GetAccountCommand : IRequest<AccountModel>
     {
 
 
-        public string CustomerId { get; set; }
+        public string AccountId { get; set; }
 
 
     }
