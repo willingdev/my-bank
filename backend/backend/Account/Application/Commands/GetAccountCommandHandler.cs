@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using MyBank.Account.Domain.Aggregates;
 using MyBank.Account.Domain.Models;
+using System;
 
 namespace MyBank.Account.Application.Commands
 {
@@ -18,6 +19,7 @@ namespace MyBank.Account.Application.Commands
         }
         public async Task<AccountModel> Handle(GetAccountCommand request, CancellationToken cancellationToken)
         {
+            Console.WriteLine("id:" + request.AccountId);
             return await _accountRepository.GetAsync(request.AccountId);
         }
     }

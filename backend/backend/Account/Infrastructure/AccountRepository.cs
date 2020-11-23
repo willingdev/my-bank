@@ -47,18 +47,26 @@ namespace MyBank.Account.Infrastructure
             return account;
         }
 
-        public Task<AccountModel> GetAsync(string account)
+        public async Task<AccountModel> GetAsync(string accountId)
         {
+            string sql = $@"SELECT
+                            id,
+                            customer_id as CustomerId,
+                            total_money as TotalMoney
+                        FROM
+                            [dbo].[account]
+                        WHERE
+                            id = @account_id";
 
-            try
+            using (var sqlConnection = new SqlConnection(connectionString))
             {
-                return Task.FromResult(database[account]);
-            }
-            catch (System.Collections.Generic.KeyNotFoundException e)
-            {
-                return null;
-            }
 
+                AccountModel result = await sqlConnection.QueryFirstOrDefaultAsync<AccountModel>(sql, new
+                {
+                    account_id = accountId
+                });
+                return result;
+            }
         }
 
         public Task<AccountModel> Update(AccountModel account)
