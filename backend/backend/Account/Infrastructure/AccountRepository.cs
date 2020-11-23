@@ -71,11 +71,27 @@ namespace MyBank.Account.Infrastructure
 
         public Task<AccountModel> Update(AccountModel account)
         {
-            throw new System.NotImplementedException();
+            return Update(new AccountModel[] { account });
         }
-        public Task<AccountModel> Update(AccountModel[] account)
+        public async Task<AccountModel> Update(AccountModel[] accounts)
         {
-            throw new System.NotImplementedException();
+            List<string> sqls = new List<string>();
+            foreach (AccountModel accountModel in accounts)
+            {
+                sqls.Add($@"UPDATE
+                                [dbo].[account]
+                            SET
+                                total_money = {accountModel.TotalMoney},
+                                updated = GETDATE()
+                            WHERE
+                                id = '{accountModel.Id}'");
+            }
+            string fullSql = string.Join(";", sqls);
+            using (var sqlConnection = new SqlConnection(connectionString))
+            {
+                await sqlConnection.ExecuteAsync(fullSql);
+            }
+            return new AccountModel();
         }
     }
 }
