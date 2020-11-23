@@ -1,4 +1,5 @@
 # MyBank
+This solution uses .NET Core 3.1
 
 ## Set up database
 This solution is using Microsoft SQL Server, you can use docker as:
