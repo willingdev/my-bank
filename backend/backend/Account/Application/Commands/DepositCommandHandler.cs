@@ -24,6 +24,7 @@ namespace MyBank.Account.Application.Commands
             AccountModel account = await _accountRepository.GetAsync(accountId);
             account.TotalMoney = actualDeposit;
             await _accountRepository.Update(account);
+            //TODO: Should create transaction record for deposit
             return account;
         }
     }

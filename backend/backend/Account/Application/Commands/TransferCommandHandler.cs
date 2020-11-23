@@ -23,6 +23,7 @@ namespace MyBank.Account.Application.Commands
             fromAccount.TotalMoney = fromAccount.TotalMoney - request.TransfertAmount;
             toAccount.TotalMoney += request.TransfertAmount;
             await _accountRepository.Update(new AccountModel[] { fromAccount, toAccount });
+             //TODO: Should create transaction record for deposit
             return fromAccount;
         }
     }
