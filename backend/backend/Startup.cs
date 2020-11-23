@@ -30,8 +30,9 @@ namespace MyBank.Backend
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("MyBank");
             services.AddControllers().AddNewtonsoftJson();
-            services.AddSingleton<IAccountRepository, AccountRepository>();
+            services.AddSingleton<IAccountRepository>(new AccountRepository(connectionString));
             services.AddMediatR(typeof(CreateAccountCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetAccountCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(DepositCommandHandler).GetTypeInfo().Assembly);

@@ -14,7 +14,12 @@ namespace MyBank.Account.Infrastructure
         private Dictionary<string, AccountModel> database = new Dictionary<string, AccountModel>();
         private int accountIdIndex = 0;
 
-        private string connectionString = "Server=172.18.0.2;Database=mybank;User ID=sa;Password=yourStrong(!)Password;";
+        private string _connectionString;
+        
+        public AccountRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         public async Task<AccountModel> Add(AccountModel account)
         {
 
@@ -34,7 +39,7 @@ namespace MyBank.Account.Infrastructure
                                     getdate(),
                                     0.0
                                 );";
-            using (var sqlConnection = new SqlConnection(connectionString))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
 
                 await sqlConnection.ExecuteAsync(sql, new
@@ -58,7 +63,7 @@ namespace MyBank.Account.Infrastructure
                         WHERE
                             id = @account_id";
 
-            using (var sqlConnection = new SqlConnection(connectionString))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
 
                 AccountModel result = await sqlConnection.QueryFirstOrDefaultAsync<AccountModel>(sql, new
@@ -87,7 +92,7 @@ namespace MyBank.Account.Infrastructure
                                 id = '{accountModel.Id}'");
             }
             string fullSql = string.Join(";", sqls);
-            using (var sqlConnection = new SqlConnection(connectionString))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 await sqlConnection.ExecuteAsync(fullSql);
             }
