@@ -16,7 +16,7 @@ using MyBank.Account.Application.Commands;
 using MyBank.Account.Domain.Aggregates;
 using MyBank.Account.Infrastructure;
 
-namespace backend
+namespace MyBank.Backend
 {
     public class Startup
     {
@@ -27,7 +27,8 @@ namespace backend
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+   
+        public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
             services.AddSingleton<IAccountRepository, AccountRepository>();
