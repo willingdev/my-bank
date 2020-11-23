@@ -7,10 +7,10 @@ namespace MyBank.Account.Domain.Models
     {
         [DataMember]
         public string Id { set; get; }
-         [DataMember]
+        [DataMember]
         public string CustomerId { set; get; }
 
-         [DataMember]
+        [DataMember]
         public double TotalMoney { set; get; }
     }
 

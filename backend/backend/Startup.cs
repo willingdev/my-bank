@@ -27,7 +27,7 @@ namespace MyBank.Backend
 
         public IConfiguration Configuration { get; }
 
-   
+
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
@@ -35,7 +35,7 @@ namespace MyBank.Backend
             services.AddMediatR(typeof(CreateAccountCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetAccountCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(DepositCommandHandler).GetTypeInfo().Assembly);
-            
+            services.AddMediatR(typeof(TransferCommandHandler).GetTypeInfo().Assembly);
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

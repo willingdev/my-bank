@@ -29,6 +29,12 @@ namespace backend.Controllers
         {
             return await _mediator.Send(depositCommand);
         }
+        [Route("transfer")]
+        [HttpPost]
+        public async Task<ActionResult<AccountModel>> DepositAsync([FromBody] TransferCommand transferCommand)
+        {
+            return await _mediator.Send(transferCommand);
+        }
         [Route("get")]
         [HttpPost]
         public async Task<ActionResult<AccountModel>> GetAccountAsync([FromBody] GetAccountCommand getAccountCommmand)

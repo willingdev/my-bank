@@ -41,5 +41,9 @@ namespace MyBank.Account.Infrastructure
         {
             throw new System.NotImplementedException();
         }
+        public Task<AccountModel> Update(AccountModel[] account)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

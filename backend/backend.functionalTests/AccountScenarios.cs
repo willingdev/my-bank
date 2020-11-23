@@ -93,6 +93,58 @@ namespace backend.functionalTests
             }
         }
 
+        [Test]
+        public async Task Transfer_response_ok_status_code()
+        {
+            using (var server = CreateServer())
+            {
+                AccountModel fromAccount = new AccountModel();
+                fromAccount.TotalMoney = 1000;
+                AccountModel toAccount = new AccountModel();
+                toAccount.TotalMoney = 0.0;
+                _accountRepository.Setup(s => s.GetAsync(It.Is<string>(a => a == "test1"))).Returns(Task.FromResult(fromAccount));
+                _accountRepository.Setup(s => s.GetAsync(It.Is<string>(a => a == "test2"))).Returns(Task.FromResult(toAccount));
+
+                var content = new StringContent(BuildTransferCommand(), UTF8Encoding.UTF8, "application/json");
+                var client = server.CreateClient();
+                var response = await client
+                    .PostAsync("account/transfer", content);
+                string apiResponseStr = await response.Content.ReadAsStringAsync();
+                AccountModel result = JsonConvert.DeserializeObject<AccountModel>(apiResponseStr);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual(500.0, result.TotalMoney);
+
+                var content2 = new StringContent(BuildGetCommand(), UTF8Encoding.UTF8, "application/json");
+                var response2 = await client
+                    .PostAsync("account/get", content2);
+                string apiResponseStr2 = await response.Content.ReadAsStringAsync();
+                AccountModel result2 = JsonConvert.DeserializeObject<AccountModel>(apiResponseStr2);
+                Assert.AreEqual(HttpStatusCode.OK, response2.StatusCode);
+                Assert.AreEqual(500.0, result2.TotalMoney);
+
+            }
+        }
+
+
+        string BuildGetCommand()
+        {
+            var order = new GetAccountCommand()
+            {
+                AccountId = "test1",
+            };
+            return JsonConvert.SerializeObject(order);
+        }
+        string BuildTransferCommand()
+        {
+            var order = new TransferCommand()
+            {
+                FromAccountId = "test1",
+                ToAccountId = "test2",
+                TransfertAmount = 500
+            };
+            return JsonConvert.SerializeObject(order);
+        }
+
         string BuildDepositCommand()
         {
             var order = new DepositCommand()
