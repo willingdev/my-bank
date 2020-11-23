@@ -20,6 +20,7 @@ namespace MyBank.Account.Application.Commands
         {
             AccountModel account = new AccountModel();
             account.CustomerId = request.CustomerId;
+            account.Id = AccountNumberGenerator.Next();
             return await _accountRepository.Add(account);
         }
     }

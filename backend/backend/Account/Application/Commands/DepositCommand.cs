@@ -11,7 +11,7 @@ namespace MyBank.Account.Application.Commands
 
 
         public string AccountId { get; set; }
-        public double DepositAmount {get;set;}
+        public double DepositAmount { get; set; }
 
 
     }

@@ -2,25 +2,49 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyBank.Account.Domain.Aggregates;
 using MyBank.Account.Domain.Models;
+using Dapper;
+using System.Data.SqlClient;
 
 namespace MyBank.Account.Infrastructure
 {
-
-
 
     public class AccountRepository : IAccountRepository
     {
         private string[] availableAccountIds = { "NL81RABO8479662646", "NL96INGB7843842861", "NL77ABNA7852130259" };
         private Dictionary<string, AccountModel> database = new Dictionary<string, AccountModel>();
         private int accountIdIndex = 0;
-        public Task<AccountModel> Add(AccountModel account)
+
+        private string connectionString = "Server=172.18.0.2;Database=mybank;User ID=sa;Password=yourStrong(!)Password;";
+        public async Task<AccountModel> Add(AccountModel account)
         {
 
-            AccountModel accountModel = new AccountModel();
-            accountModel.Id = availableAccountIds[accountIdIndex++];
-            accountModel.CustomerId = account.CustomerId;
-            database.Add(accountModel.Id, accountModel);
-            return Task.FromResult(accountModel);
+            string sql = $@"INSERT INTO
+                            [dbo].[account] (
+                                [id],
+                                [customer_id],
+                                [created],
+                                [updated],
+                                [total_money]
+                            )
+                            VALUES
+                                (
+                                    @account_id,
+                                    @customer_id,
+                                    getdate(),
+                                    getdate(),
+                                    0.0
+                                );";
+            using (var sqlConnection = new SqlConnection(connectionString))
+            {
+
+                await sqlConnection.ExecuteAsync(sql, new
+                {
+                    account_id = account.Id,
+                    customer_id = account.CustomerId,
+                });
+
+            }
+            return account;
         }
 
         public Task<AccountModel> GetAsync(string account)
