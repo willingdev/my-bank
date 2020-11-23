@@ -37,7 +37,7 @@ namespace MyBank.Account.Infrastructure
 
         }
 
-        public void Update(AccountModel account)
+        public Task<AccountModel> Update(AccountModel account)
         {
             throw new System.NotImplementedException();
         }

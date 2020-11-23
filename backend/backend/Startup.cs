@@ -34,7 +34,8 @@ namespace MyBank.Backend
             services.AddSingleton<IAccountRepository, AccountRepository>();
             services.AddMediatR(typeof(CreateAccountCommandHandler).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetAccountCommandHandler).GetTypeInfo().Assembly);
-
+            services.AddMediatR(typeof(DepositCommandHandler).GetTypeInfo().Assembly);
+            
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

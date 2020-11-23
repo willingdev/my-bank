@@ -73,6 +73,35 @@ namespace backend.functionalTests
                 Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             }
         }
+
+        [Test]
+        public async Task Deposit_response_ok_status_code()
+        {
+            using (var server = CreateServer())
+            {
+
+                double expectedDeposit = 999.0;
+                _accountRepository.Setup(s => s.GetAsync(It.IsAny<string>())).Returns(Task.FromResult(new AccountModel()));
+                _accountRepository.Setup(s => s.Update(It.IsAny<AccountModel>())).Returns(Task.FromResult(new AccountModel()));
+                var content = new StringContent(BuildDepositCommand(), UTF8Encoding.UTF8, "application/json");
+                var response = await server.CreateClient()
+                    .PostAsync("account/deposit", content);
+                string apiResponseStr = await response.Content.ReadAsStringAsync();
+                AccountModel result = JsonConvert.DeserializeObject<AccountModel>(apiResponseStr);
+                Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+                Assert.AreEqual(expectedDeposit, result.TotalMoney);
+            }
+        }
+
+        string BuildDepositCommand()
+        {
+            var order = new DepositCommand()
+            {
+                AccountId = "test1",
+                DepositAmount = 1000
+            };
+            return JsonConvert.SerializeObject(order);
+        }
         string BuildCreateAccountCommand()
         {
             var order = new CreateAccountCommmand()
@@ -81,22 +110,5 @@ namespace backend.functionalTests
             };
             return JsonConvert.SerializeObject(order);
         }
-    }
-    public static class WebHostBuilderExt
-    {
-        // public static WebHostBuilder ConfigureServicesTest(this WebHostBuilder @this, Action<IServiceCollection> configureServices)
-        // {
-        //     @this.ConfigureServices(services =>
-        //         {
-        //             configureServices(services);
-
-
-        //         })
-        //         .Configure(builder =>
-        //         {
-
-        //         });
-        //     return @this;
-        // }
     }
 }
